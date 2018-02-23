@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>20180223 | syb3181的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="MathJax.Hub.Config({   displayAlign: &quot;left&quot;,   displayIndent: &quot;2em&quot; });       正态分布攻略二项分布\(X \sim B(x;\theta, n)\) \( \mu (X) = n\theta \) 很好理解，期望成功的次数 \( \sigma^2 (X) = n\theta(1-\theta) \) 可以考虑如果\(\">
+<meta name="keywords" content="ml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="20180223">
+<meta property="og:url" content="https://syb3181.github.io/2018/02/23/20180223/index.html">
+<meta property="og:site_name" content="syb3181的博客">
+<meta property="og:description" content="MathJax.Hub.Config({   displayAlign: &quot;left&quot;,   displayIndent: &quot;2em&quot; });       正态分布攻略二项分布\(X \sim B(x;\theta, n)\) \( \mu (X) = n\theta \) 很好理解，期望成功的次数 \( \sigma^2 (X) = n\theta(1-\theta) \) 可以考虑如果\(\">
+<meta property="og:updated_time" content="2018-02-23T08:56:54.802Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="20180223">
+<meta name="twitter:description" content="MathJax.Hub.Config({   displayAlign: &quot;left&quot;,   displayIndent: &quot;2em&quot; });       正态分布攻略二项分布\(X \sim B(x;\theta, n)\) \( \mu (X) = n\theta \) 很好理解，期望成功的次数 \( \sigma^2 (X) = n\theta(1-\theta) \) 可以考虑如果\(\">
+  
+    <link rel="alternate" href="/atom.xml" title="syb3181的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">syb3181的博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://syb3181.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-20180223" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/02/23/20180223/" class="article-date">
+  <time datetime="2018-02-23T06:29:41.000Z" itemprop="datePublished">2018-02-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      20180223
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  displayAlign: "left",
+  displayIndent: "2em"
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default">
+</script>
+
+
+<h1 id="正态分布攻略"><a href="#正态分布攻略" class="headerlink" title="正态分布攻略"></a>正态分布攻略</h1><h2 id="二项分布"><a href="#二项分布" class="headerlink" title="二项分布"></a>二项分布</h2><p>\(X \sim B(x;\theta, n)\)</p>
+<p>\( \mu (X) = n\theta \)</p>
+<p>很好理解，期望成功的次数</p>
+<p>\( \sigma^2 (X) = n\theta(1-\theta) \)</p>
+<p>可以考虑如果\(\theta = 0,1\)，显然\(\sigma^2 (X) = 0\)</p>
+<p>具体证明参考[1]。</p>
+<h2 id="标准正态分布"><a href="#标准正态分布" class="headerlink" title="标准正态分布"></a>标准正态分布</h2><p>二项分布的极限。参考[1]。</p>
+<p>把服从二项分布的随机变量像一般正态分布转标准正态分布那样标准化。</p>
+<p>$$<br>\begin{equation}<br>Z = \frac{X - \mu (X)}{\sigma (X)}<br>\end{equation}<br>$$</p>
+<p>可以证明\(Z\)的动量生成函数趋向于标准正态分布的动量生成函数[1]。这可以得到在\( n \rightarrow \infty \)时，\(Z\)近似服从正态分布。</p>
+<p>一个值得注意的事情：<br>把密度函数平方以后积分很好积，用极坐标代换变量。</p>
+<h2 id="高维标准正态分布"><a href="#高维标准正态分布" class="headerlink" title="高维标准正态分布"></a>高维标准正态分布</h2><p>相互独立的服从标准正态分布的随机变量的联合分布。[2]</p>
+<h2 id="高维正态分布"><a href="#高维正态分布" class="headerlink" title="高维正态分布"></a>高维正态分布</h2><p>可以说明每个高维正态分布的密度函数，经过一次线性变换，可以转化为一个标准正态分布[2]。</p>
+<p>[2]里面写的很清楚了，不赘述了。</p>
+<p>注：需要用到多元积分的变量代换公式</p>
+<h2 id="references"><a href="#references" class="headerlink" title="references"></a>references</h2><p>[1] <a href="https://www.amazon.com/John-Freunds-Mathematical-Statistics-Applications/dp/032180709X" target="_blank" rel="noopener">Mathematical Statistics with Applications</a></p>
+<p>[2] <a href="http://cs229.stanford.edu/section/gaussians.pdf" target="_blank" rel="noopener">The Multivariate Gaussian Distribution</a></p>
+<h2 id="闲话"><a href="#闲话" class="headerlink" title="闲话"></a>闲话</h2><p>感叹一下国内外教材的差别，个人感觉不是一个水准的。我自己写东西也不爱写给别人看，懒得琢磨怎么写的清楚好懂。只是单纯想记一下。没关系，学英语就好。</p>
+<p>还有就是第一次在hexo框架下插入许多公式，只要在文章里面外挂一下MathJax再配置一下就好了，我不懂js，感叹一下真好用。<br>另外再在Atom里面配一下快捷键。在coffee.init里面加上command，然后再keybind里面配上这个命令就行了。比如可以加一个创建行内公式的快捷键。</p>
+<h2 id="附件"><a href="#附件" class="headerlink" title="附件"></a>附件</h2><p>侵删<br><a href="document.pdf">The Multivariate Gaussian Distribution 副本</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://syb3181.github.io/2018/02/23/20180223/" data-id="cjdzka6sr0005c7qid6xzatda" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ml/">ml</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/02/07/20180207/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">20180207</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/heartstone/">heartstone</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ml/">ml</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/heartstone/" style="font-size: 10px;">heartstone</a> <a href="/tags/ml/" style="font-size: 10px;">ml</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/02/23/20180223/">20180223</a>
+          </li>
+        
+          <li>
+            <a href="/2018/02/07/20180207/">20180207</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/03/20180103/">20180103</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/24/20171224/">20171224</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 syb3181<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
