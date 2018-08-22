@@ -48,9 +48,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Buscar"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://syb3181.github.io"></form>
@@ -60,6 +60,49 @@
 </header>
       <div class="outer">
         <section id="main">
+  
+    <article id="post-20180822" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/22/20180822/" class="article-date">
+  <time datetime="2018-08-22T07:36:14.000Z" itemprop="datePublished">2018-08-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/22/20180822/">20180822</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>小小记录一下，毕业以后被拉去创业了。现在就三个人，原来很多不用自己干的事情也是逃不掉了。</p>
+<p>比如搭gitlab，原来的公司是有专门的人负责的，有k8s集群，有专门的命名空间，然后有ldap登录，<br>还有一哥搞的定时备份软件备份数据。现在我搞了个简单版的。这一套也适用于人力有限的创业公司。</p>
+<p>首先要有unix环境和docker，把镜像准备好。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">docker run --detach \</span><br><span class="line">        --hostname gitlab.example.com \</span><br><span class="line">        --publish 20443:443 --publish 30088:30088 --publish 20022:20022 \</span><br><span class="line">        --name gitlab \</span><br><span class="line">        --restart always \</span><br><span class="line">        --volume /home/shengyibin/gitlab/config:/etc/gitlab \</span><br><span class="line">        --volume /home/shengyibin/gitlab/logs:/var/log/gitlab \</span><br><span class="line">        --volume /home/shengyibin/gitlab/data:/var/opt/gitlab \</span><br><span class="line">        gitlab/gitlab-ce:latest</span><br></pre></td></tr></table></figure>
+<p>这样恢复的时候理论上只要对着原来保存数据的目录用上面的命令就行了。</p>
+<p>事实上也是这样，除了会报错，搜了一下绕过去的办法(<a href="https://gitlab.com/gitlab-org/omnibus-gitlab/issues/1601" target="_blank" rel="noopener">https://gitlab.com/gitlab-org/omnibus-gitlab/issues/1601</a>)<br>在gitlab的volume文件夹下执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod 2770 /data/git-data/repositories</span><br></pre></td></tr></table></figure><br>就可以顺利起来了。</p>
+<p>然后每周五摸鱼的时候花几分钟把volume文件夹备份一下，对于只有三个人的startup来说，可以说相当美滋滋了。当然这个攻略是假设读者对基本的运维操作比较熟悉的。gitlab目前的版本是GitLab 10.8.4，图方便拉个最新的呗，没准后面bug也修复了，能用万岁好吧。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://syb3181.github.io/2018/08/22/20180822/" data-id="cjl544ta60001g6qiw679o0rf" class="article-share-link">Compartir</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-20180223" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -117,7 +160,7 @@ MathJax.Hub.Config({
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2018/02/23/20180223/" data-id="cjdzqiyk80004okqirdkgl950" class="article-share-link">Teilen</a>
+      <a data-url="https://syb3181.github.io/2018/02/23/20180223/" data-id="cjl544tax0006g6qityvredwd" class="article-share-link">Compartir</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ml/">ml</a></li></ul>
@@ -168,7 +211,7 @@ MathJax.Hub.Config({
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2018/02/07/20180207/" data-id="cjdzqiyjz0002okqiqlmq7ne5" class="article-share-link">Teilen</a>
+      <a data-url="https://syb3181.github.io/2018/02/07/20180207/" data-id="cjl544taf0004g6qiiow5ltuy" class="article-share-link">Compartir</a>
       
       
     </footer>
@@ -219,7 +262,7 @@ MathJax.Hub.Config({
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2018/01/03/20180103/" data-id="cjdzqiyjp0001okqiwnvscbui" class="article-share-link">Teilen</a>
+      <a data-url="https://syb3181.github.io/2018/01/03/20180103/" data-id="cjl544ta10000g6qib3f7my1s" class="article-share-link">Compartir</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/heartstone/">heartstone</a></li></ul>
@@ -278,7 +321,7 @@ MathJax.Hub.Config({
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2017/12/24/20171224/" data-id="cjdzqiyjk0000okqil2ou8yvc" class="article-share-link">Teilen</a>
+      <a data-url="https://syb3181.github.io/2017/12/24/20171224/" data-id="cjl544tac0003g6qiv9j03hsa" class="article-share-link">Compartir</a>
       
       
     </footer>
@@ -309,7 +352,7 @@ MathJax.Hub.Config({
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
+    <h3 class="widget-title">Nube de Tags</h3>
     <div class="widget tagcloud">
       <a href="/tags/heartstone/" style="font-size: 10px;">heartstone</a> <a href="/tags/ml/" style="font-size: 10px;">ml</a>
     </div>
@@ -318,9 +361,9 @@ MathJax.Hub.Config({
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archiv</h3>
+    <h3 class="widget-title">Archivos</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li></ul>
     </div>
   </div>
 
@@ -328,9 +371,13 @@ MathJax.Hub.Config({
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">letzter Beitrag</h3>
+    <h3 class="widget-title">Posts recientes</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2018/08/22/20180822/">20180822</a>
+          </li>
         
           <li>
             <a href="/2018/02/23/20180223/">20180223</a>
@@ -361,7 +408,7 @@ MathJax.Hub.Config({
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2018 syb3181<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Construido por <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
