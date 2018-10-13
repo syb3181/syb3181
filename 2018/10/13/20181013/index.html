@@ -15,7 +15,7 @@
 <meta property="og:description" content="有个小小的体会，工程和数学有一个相通的地方，就是概念很重要。 很多不经常用的东西只要记得概念，然后要用的时候搜索一下就行了，概念本身是很好记的。 对于经常使用的东西，相信不用太怎么记，自然就很熟悉了。 昨天在爬一个资讯网站上面的上市公司公告，是PDF格式的 从页面上爬到的url是下面这样的 /new/disclosure/detail?plate=&amp;amp;orgId=9900026806&amp;amp">
 <meta property="og:image" content="https://syb3181.github.io/2018/10/13/20181013/req1.jpeg">
 <meta property="og:image" content="https://syb3181.github.io/2018/10/13/20181013/req2.jpeg">
-<meta property="og:updated_time" content="2018-10-13T04:14:29.554Z">
+<meta property="og:updated_time" content="2018-10-13T04:19:29.622Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20181013">
 <meta name="twitter:description" content="有个小小的体会，工程和数学有一个相通的地方，就是概念很重要。 很多不经常用的东西只要记得概念，然后要用的时候搜索一下就行了，概念本身是很好记的。 对于经常使用的东西，相信不用太怎么记，自然就很熟悉了。 昨天在爬一个资讯网站上面的上市公司公告，是PDF格式的 从页面上爬到的url是下面这样的 /new/disclosure/detail?plate=&amp;amp;orgId=9900026806&amp;amp">
@@ -94,7 +94,7 @@
 <p>昨天在爬一个资讯网站上面的上市公司公告，是PDF格式的</p>
 <p>从页面上爬到的url是下面这样的</p>
 <p>/new/disclosure/detail?plate=&amp;orgId=9900026806&amp;stockCode=002821&amp;announcementId=1205430193&amp;announcementTime=2018-09-12</p>
-<p>虽然不是pdf的url，加上了domain以后，在chrome里面输入经过跳转到另一个pdf的url（<a href="http://static.site.foo.bar.com.cn/finalpage/2018-09-12/1205430193.PDF）可以访问到。" target="_blank" rel="noopener">http://static.site.foo.bar.com.cn/finalpage/2018-09-12/1205430193.PDF）可以访问到。</a></p>
+<p>虽然不是pdf的url，加上了domain以后，在chrome里面输入经过跳转到另一个pdf的url(<a href="http://static.site.foo.bar.com.cn/finalpage/2018-09-12/1205430193.PDF" target="_blank" rel="noopener">http://static.site.foo.bar.com.cn/finalpage/2018-09-12/1205430193.PDF</a>) 可以访问到。</p>
 <p>于是我按照正常的操作下载，</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">headers = &#123;</span><br><span class="line">  <span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36'</span>&#125;</span><br><span class="line">response = requests.get(href, headers=headers)</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'output/tmp.pdf'</span>, <span class="string">'wb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">  f.write(response.content)</span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure>
 <p>发现是下载不了的。</p>
@@ -116,7 +116,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2018/10/13/20181013/" data-id="cjn6v8hs10009iqqim7dcy1cx" class="article-share-link">Teilen</a>
+      <a data-url="https://syb3181.github.io/2018/10/13/20181013/" data-id="cjn6xhnws0006scqiyh7iul4a" class="article-share-link">Teilen</a>
       
       
     </footer>

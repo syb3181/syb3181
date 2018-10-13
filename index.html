@@ -89,7 +89,7 @@
 <p>昨天在爬一个资讯网站上面的上市公司公告，是PDF格式的</p>
 <p>从页面上爬到的url是下面这样的</p>
 <p>/new/disclosure/detail?plate=&amp;orgId=9900026806&amp;stockCode=002821&amp;announcementId=1205430193&amp;announcementTime=2018-09-12</p>
-<p>虽然不是pdf的url，加上了domain以后，在chrome里面输入经过跳转到另一个pdf的url（<a href="http://static.site.foo.bar.com.cn/finalpage/2018-09-12/1205430193.PDF）可以访问到。" target="_blank" rel="noopener">http://static.site.foo.bar.com.cn/finalpage/2018-09-12/1205430193.PDF）可以访问到。</a></p>
+<p>虽然不是pdf的url，加上了domain以后，在chrome里面输入经过跳转到另一个pdf的url(<a href="http://static.site.foo.bar.com.cn/finalpage/2018-09-12/1205430193.PDF" target="_blank" rel="noopener">http://static.site.foo.bar.com.cn/finalpage/2018-09-12/1205430193.PDF</a>) 可以访问到。</p>
 <p>于是我按照正常的操作下载，</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">headers = &#123;</span><br><span class="line">  <span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36'</span>&#125;</span><br><span class="line">response = requests.get(href, headers=headers)</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'output/tmp.pdf'</span>, <span class="string">'wb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">  f.write(response.content)</span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure>
 <p>发现是下载不了的。</p>
@@ -111,7 +111,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2018/10/13/20181013/" data-id="cjn6v8hs10009iqqim7dcy1cx" class="article-share-link">Teilen</a>
+      <a data-url="https://syb3181.github.io/2018/10/13/20181013/" data-id="cjn6xhnws0006scqiyh7iul4a" class="article-share-link">Teilen</a>
       
       
     </footer>
@@ -157,7 +157,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2018/08/22/20180822/" data-id="cjn6v8hr90003iqqia6kb22wv" class="article-share-link">Teilen</a>
+      <a data-url="https://syb3181.github.io/2018/08/22/20180822/" data-id="cjn6xhnwr0005scqidjzdk14r" class="article-share-link">Teilen</a>
       
       
     </footer>
@@ -223,7 +223,7 @@ MathJax.Hub.Config({
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2018/02/23/20180223/" data-id="cjn6v8hrf0004iqqivqufbrk0" class="article-share-link">Teilen</a>
+      <a data-url="https://syb3181.github.io/2018/02/23/20180223/" data-id="cjn6xhnwo0004scqii7nch099" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ml/">ml</a></li></ul>
@@ -274,7 +274,7 @@ MathJax.Hub.Config({
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2018/02/07/20180207/" data-id="cjn6v8hrm0005iqqigsjxt21d" class="article-share-link">Teilen</a>
+      <a data-url="https://syb3181.github.io/2018/02/07/20180207/" data-id="cjn6xhnwf0002scqiqsir8pxm" class="article-share-link">Teilen</a>
       
       
     </footer>
@@ -325,7 +325,7 @@ MathJax.Hub.Config({
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2018/01/03/20180103/" data-id="cjn6v8hqx0000iqqiixfu96z5" class="article-share-link">Teilen</a>
+      <a data-url="https://syb3181.github.io/2018/01/03/20180103/" data-id="cjn6xhnwa0001scqiik8apiig" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/heartstone/">heartstone</a></li></ul>
@@ -384,7 +384,7 @@ MathJax.Hub.Config({
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2017/12/24/20171224/" data-id="cjn6v8hr20001iqqivday95t6" class="article-share-link">Teilen</a>
+      <a data-url="https://syb3181.github.io/2017/12/24/20171224/" data-id="cjn6xhnw40000scqinr7mjknb" class="article-share-link">Teilen</a>
       
       
     </footer>
