@@ -50,7 +50,7 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://syb3181.github.io"></form>
@@ -60,6 +60,56 @@
 </header>
       <div class="outer">
         <section id="main">
+  
+    <article id="post-20190311" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/03/11/20190311/" class="article-date">
+  <time datetime="2019-03-11T12:56:49.000Z" itemprop="datePublished">2019-03-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/11/20190311/">20190311</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>崔博给我整了台linux的台式机，我很高兴。<br>崔博也买了一台，但是他没有在用，我不得不说真是浪费啊。<br>记录一下，万一他也要用。</p>
+<p>上网：<br>ifconfig命令看，除了一个lo，什么都没有。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lspci | grep Ethernet</span><br></pre></td></tr></table></figure>
+<p>由于不知道台式机网卡的型号，所以用上面这个命令查看网卡的型号，去网上找驱动，发现这个网卡linux驱动没有官方的支持，网友说e1000e的驱动能用，整上以后发现因为房间有线网口不能用。只能去网上买了水星-MW300UM的USB无线网卡，30块钱。</p>
+<p>lsusb显然是看不到的，因为没有驱动。<br>由于知道网卡型号，可以直接去查这个网卡的芯片型号，RTL8191SU。最后经过一番查找，我选了rtl8192eu-linux-driver。在笔记本上下载了驱动，用优盘复制到/usr/local/src目录，然后</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo make</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+<p>把模块编译好，<br>然后需要用modprobe命令，把模块加载到内核里面。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">modprobe <span class="number">8192</span>eu</span><br></pre></td></tr></table></figure>
+<p>最后为了每次开机启动的时候自动把这个模块加载到内核，需要在/etc/modules-load.d/modules.conf里面加入这个模块的名字。不同系统可能不一样。</p>
+<p>至于科学上网的话，我目前没有做的特别好，每次开机都要自己去建一个screen窗口用sslocal命令生成一个socks5代理。可以考虑做个开机自动启动的docker。鉴于我不经常重启，我暂时就这么苟着了。</p>
+<p>输入法：</p>
+<p>我实习的时候把一台电脑的输入法搞崩过，这次我仍然选用了sougou for linux。Ubuntu16.04下载deb包以后，把software updater里面所有能升级的东西都升级以后，直接双击deb包就装上了，重启一下就能用了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://syb3181.github.io/2019/03/11/20190311/" data-id="cjt4cpgk9000a2uqio46lizpx" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-20190308" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -97,7 +147,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2019/03/08/20190308/" data-id="cjt06d3xr000a2nqiby3w1jzv" class="article-share-link">Share</a>
+      <a data-url="https://syb3181.github.io/2019/03/08/20190308/" data-id="cjt4cpgkb000c2uqi1xs9604v" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
@@ -153,7 +203,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2019/02/16/20190216/" data-id="cjt06d3xp00092nqieqwp4tu4" class="article-share-link">Share</a>
+      <a data-url="https://syb3181.github.io/2019/02/16/20190216/" data-id="cjt4cpgk700092uqiixp3b2mo" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ss/">ss</a></li></ul>
@@ -215,7 +265,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2018/10/13/20181013/" data-id="cjt06d3xn00062nqi51n4038c" class="article-share-link">Share</a>
+      <a data-url="https://syb3181.github.io/2018/10/13/20181013/" data-id="cjt4cpgk500062uqiq53fbacv" class="article-share-link">Teilen</a>
       
       
     </footer>
@@ -261,7 +311,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2018/08/22/20180822/" data-id="cjt06d3xi00042nqi8u23mr7m" class="article-share-link">Share</a>
+      <a data-url="https://syb3181.github.io/2018/08/22/20180822/" data-id="cjt4cpgjy00042uqi1mavpasp" class="article-share-link">Teilen</a>
       
       
     </footer>
@@ -327,7 +377,7 @@ MathJax.Hub.Config({
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2018/02/23/20180223/" data-id="cjt06d3xc00022nqi7egjuh0i" class="article-share-link">Share</a>
+      <a data-url="https://syb3181.github.io/2018/02/23/20180223/" data-id="cjt4cpgjt00022uqi9t1zxv1r" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ml/">ml</a></li></ul>
@@ -378,7 +428,7 @@ MathJax.Hub.Config({
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2018/02/07/20180207/" data-id="cjt06d3xm00052nqihj5f4trp" class="article-share-link">Share</a>
+      <a data-url="https://syb3181.github.io/2018/02/07/20180207/" data-id="cjt4cpgk400052uqi7609adtl" class="article-share-link">Teilen</a>
       
       
     </footer>
@@ -429,7 +479,7 @@ MathJax.Hub.Config({
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2018/01/03/20180103/" data-id="cjt06d3xa00012nqibxtojo3q" class="article-share-link">Share</a>
+      <a data-url="https://syb3181.github.io/2018/01/03/20180103/" data-id="cjt4cpgjr00012uqi2ql6mzov" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/heartstone/">heartstone</a></li></ul>
@@ -488,7 +538,7 @@ MathJax.Hub.Config({
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2017/12/24/20171224/" data-id="cjt06d3x300002nqi15vm21gs" class="article-share-link">Share</a>
+      <a data-url="https://syb3181.github.io/2017/12/24/20171224/" data-id="cjt4cpgjm00002uqiwtdacqf7" class="article-share-link">Teilen</a>
       
       
     </footer>
@@ -511,7 +561,7 @@ MathJax.Hub.Config({
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/">algorithm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/heartstone/">heartstone</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ml/">ml</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ss/">ss</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/">algorithm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/heartstone/">heartstone</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ml/">ml</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ss/">ss</a></li></ul>
     </div>
   </div>
 
@@ -521,14 +571,14 @@ MathJax.Hub.Config({
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/algorithm/" style="font-size: 10px;">algorithm</a> <a href="/tags/heartstone/" style="font-size: 10px;">heartstone</a> <a href="/tags/ml/" style="font-size: 10px;">ml</a> <a href="/tags/ss/" style="font-size: 10px;">ss</a>
+      <a href="/tags/algorithm/" style="font-size: 10px;">algorithm</a> <a href="/tags/heartstone/" style="font-size: 10px;">heartstone</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/ml/" style="font-size: 10px;">ml</a> <a href="/tags/ss/" style="font-size: 10px;">ss</a>
     </div>
   </div>
 
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
+    <h3 class="widget-title">Archiv</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li></ul>
     </div>
@@ -538,9 +588,13 @@ MathJax.Hub.Config({
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">letzter Beitrag</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/03/11/20190311/">20190311</a>
+          </li>
         
           <li>
             <a href="/2019/03/08/20190308/">20190308</a>
@@ -556,10 +610,6 @@ MathJax.Hub.Config({
         
           <li>
             <a href="/2018/08/22/20180822/">20180822</a>
-          </li>
-        
-          <li>
-            <a href="/2018/02/23/20180223/">20180223</a>
           </li>
         
       </ul>
