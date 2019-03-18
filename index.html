@@ -48,9 +48,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Buscar"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://syb3181.github.io"></form>
@@ -60,6 +60,62 @@
 </header>
       <div class="outer">
         <section id="main">
+  
+    <article id="post-20190318" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/03/18/20190318/" class="article-date">
+  <time datetime="2019-03-18T15:57:34.000Z" itemprop="datePublished">2019-03-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/18/20190318/">20190318</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://leetcode.com/problems/russian-doll-envelopes/" target="_blank" rel="noopener">题目</a></p>
+<p>You have a number of envelopes with widths and heights given as a pair of integers (w, h).<br>One envelope can fit into another if and only if both the width and height of<br>one envelope is greater than the width and height of the other envelope.</p>
+<p>What is the maximum number of envelopes can you Russian doll? (put one inside other)</p>
+<p>Note:<br>Rotation is not allowed.</p>
+<p>Example:</p>
+<p>Input: [[5,4],[6,4],[6,7],[2,3]]<br>Output: 3<br>Explanation: The maximum number of envelopes you can Russian doll is 3 ([2,3] =&gt; [5,4] =&gt; [6,7]).</p>
+<h2 id="O-N-2-的动态规划"><a href="#O-N-2-的动态规划" class="headerlink" title="O(N^2)的动态规划"></a>O(N^2)的动态规划</h2><p>比较容易想到O(N^2)的动态规划。将所有信封按照默认顺序排序（按w排序，w相同按照h排序，都是从小到大）。<br>f[n]表示第n个信封结尾，最多能套几个信封。<br>第n个信封里面什么也不套是1个信封，这是一种可能。<br>如果里面套信封，由于信封排序过，一定套的是某一个编号小的信封。通过枚举这个小一点的信封进行状态转移。<br>如果不明白的话可以先做一下这道<a href="https://leetcode.com/problems/longest-increasing-subsequence/" target="_blank" rel="noopener">最长上升子序列</a>。<br>两道题目O(N^2)的算法是类似的。</p>
+<h2 id="搜索"><a href="#搜索" class="headerlink" title="搜索"></a>搜索</h2><p>用(d, w, h)表示当前深度为d，最后一个信封为(w, h)的套法。<br>用集合S表示所有合法状态的集合<br>起始的时候，可以认为状态是(0, 0, 0)，S={(0, 0, 0)}。<br>将所有信封按照默认顺序排序，依次考虑。<br>考虑信封(w, h)，那么以他为结尾，考虑S集合中的状态(d, w’, h’)，<br>如果 w &gt; w’, h &gt; h’，那么将(d + 1, w, h)加入状态集合。<br>这里可以做一些优化</p>
+<ul>
+<li>对于状态(d, w, h)和(d’, w, h)，如果d &gt; d’，那么(d’, w, h)没有必要保存。<br>所以从已有状态向新状态扩展的时候，可以从d比较大的开始扩展，一旦扩展成功就可以停下了。</li>
+<li>对于(d, w, h)和(d, w’, h’)，也就是深度相同，如果 w &lt; w’，h &lt; h’，那么(d, w’, h’)<br>没有必要保存</li>
+</ul>
+<p>经过这两个优化，已经可以勉强蹭过时间线了，不过还是非常慢的。状态还可以进一步优化。<br>有个想法，<br>对于同一深度的状态(d, wi, hi)，我们尽量去保存hi小的状态，因为后面的信封的w至少都等于wi，信封<br>宽一点没事，要后面好放的话，hi尽量小。<br>对于同一深度，我们只保留最多两个状态（思考题：为什么是两个，是哪两个）<br>这样优化以后，在序列长度比较短的情况下，比原来快了不少，但是最坏情况还是样的（思考题：最坏情况什么时候达到）</p>
+<h2 id="O-NlogN-的动态规划"><a href="#O-NlogN-的动态规划" class="headerlink" title="O(NlogN)的动态规划"></a>O(NlogN)的动态规划</h2><p>先用O(NlogN)的方法做一下这道<a href="https://leetcode.com/problems/longest-increasing-subsequence/" target="_blank" rel="noopener">最长上升子序列</a>。</p>
+<p>最长上升子序列的解法沿用搜索里面的思路即可，同样长度的上升子序列，只需要保存结尾最小的那个就行。<br>用d[i]表示长度为i的上升子序列，末尾的数最小是多少。每次新加入的数字x，序列d中，<br>如果d[i]&gt;=x那么x不能接在d[i]后面，形成长度i + 1的序列。<br>如果d[i1] &lt; d[i2] &lt; x, 那么以x结尾长度为i1 + 1的序列不用保存（思考题：为啥），<br>所以我们找到d中比x小的最大的数d[i<em>]，然后去更新d[i</em>+1]即可。<br>找一个顺序列中，比x小的最大的数，可以用bisect中的bisect_left方法来实现，这个方法用的是二分查找，<br>单次查找的复杂度是O(logN)，而且调用的是C实现，是比较快的。<br>bisect_left(a, x)返回序列a中有多少数是严格小于x的，记住这点即可。<br>下面是我的实现，仅供参考。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">lengthOfLIS</span><span class="params">(self, nums: List[int])</span> -&gt; int:</span></span><br><span class="line">        d = []</span><br><span class="line">        <span class="keyword">for</span> x <span class="keyword">in</span> nums:</span><br><span class="line">            id = bisect.bisect_left(d, x)</span><br><span class="line">            <span class="keyword">if</span> id == len(d):</span><br><span class="line">                d.append(x)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                d[id] = min(d[id], x)</span><br><span class="line">        <span class="keyword">return</span> len(d)</span><br></pre></td></tr></table></figure>
+<p>这道题原理类似，但是需要特殊处理一下，因为(w, h0), (w, h1), …,(w, hk)这些个信封，<br>在最后的序列里面最多只能选一个。（思考题：如何特殊处理）<br>同样下面是我的实现，仅供参考。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxEnvelopes</span><span class="params">(self, envelopes: List[List[int]])</span> -&gt; int:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> envelopes:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        a = sorted(envelopes, key=<span class="keyword">lambda</span> x: (x[<span class="number">0</span>], -x[<span class="number">1</span>]))</span><br><span class="line">        d = []</span><br><span class="line">        <span class="keyword">for</span> _, h <span class="keyword">in</span> a:</span><br><span class="line">            id = bisect.bisect_left(d, h)</span><br><span class="line">            <span class="keyword">if</span> id == len(d):</span><br><span class="line">                d.append(h)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                d[id] = min(d[id], h)</span><br><span class="line">        <span class="keyword">return</span> len(d)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://syb3181.github.io/2019/03/18/20190318/" data-id="cjtej8yjk000bbwgnbq642kwo" class="article-share-link">Compartir</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-20190317" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -97,7 +153,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2019/03/17/20190317/" data-id="cjtch8z0b000dtegoe6wrue37" class="article-share-link">Share</a>
+      <a data-url="https://syb3181.github.io/2019/03/17/20190317/" data-id="cjtej8yjl000cbwgnb8ioo2d6" class="article-share-link">Compartir</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/">leetcode</a></li></ul>
@@ -147,7 +203,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2019/03/11/20190311/" data-id="cjtch8z0e000etegok9tv6ltj" class="article-share-link">Share</a>
+      <a data-url="https://syb3181.github.io/2019/03/11/20190311/" data-id="cjtej8yjf0008bwgn1yyn96j8" class="article-share-link">Compartir</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
@@ -195,7 +251,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2019/03/08/20190308/" data-id="cjtch8z0f000gtegofm3chlzq" class="article-share-link">Share</a>
+      <a data-url="https://syb3181.github.io/2019/03/08/20190308/" data-id="cjtej8yjm000fbwgnkudtar4x" class="article-share-link">Compartir</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
@@ -251,7 +307,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2019/02/16/20190216/" data-id="cjtch8yzd0009tegoy9iz1o1z" class="article-share-link">Share</a>
+      <a data-url="https://syb3181.github.io/2019/02/16/20190216/" data-id="cjtej8yjh000abwgnog29a4x4" class="article-share-link">Compartir</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ss/">ss</a></li></ul>
@@ -313,7 +369,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2018/10/13/20181013/" data-id="cjtch8yzb0006tego4u9ufx1v" class="article-share-link">Share</a>
+      <a data-url="https://syb3181.github.io/2018/10/13/20181013/" data-id="cjtej8yja0004bwgnaikca998" class="article-share-link">Compartir</a>
       
       
     </footer>
@@ -359,7 +415,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2018/08/22/20180822/" data-id="cjtch8yza0005tegodw81pes4" class="article-share-link">Share</a>
+      <a data-url="https://syb3181.github.io/2018/08/22/20180822/" data-id="cjtej8yjc0005bwgn7skswcjj" class="article-share-link">Compartir</a>
       
       
     </footer>
@@ -425,7 +481,7 @@ MathJax.Hub.Config({
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2018/02/23/20180223/" data-id="cjtch8yz70004tegokom5nid6" class="article-share-link">Share</a>
+      <a data-url="https://syb3181.github.io/2018/02/23/20180223/" data-id="cjtej8yje0006bwgnwqtxfods" class="article-share-link">Compartir</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ml/">ml</a></li></ul>
@@ -476,7 +532,7 @@ MathJax.Hub.Config({
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2018/02/07/20180207/" data-id="cjtch8yyy0002tegol6nsd4zq" class="article-share-link">Share</a>
+      <a data-url="https://syb3181.github.io/2018/02/07/20180207/" data-id="cjtej8yj60002bwgnze5m5mi1" class="article-share-link">Compartir</a>
       
       
     </footer>
@@ -527,7 +583,7 @@ MathJax.Hub.Config({
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2018/01/03/20180103/" data-id="cjtch8yyu0001tegoo9ogurov" class="article-share-link">Share</a>
+      <a data-url="https://syb3181.github.io/2018/01/03/20180103/" data-id="cjtej8yj50001bwgnwwq69jks" class="article-share-link">Compartir</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/heartstone/">heartstone</a></li></ul>
@@ -539,64 +595,12 @@ MathJax.Hub.Config({
 
 
   
-    <article id="post-20171224" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/12/24/20171224/" class="article-date">
-  <time datetime="2017-12-24T13:37:38.000Z" itemprop="datePublished">2017-12-24</time>
-</a>
+
+
+  <nav id="page-nav">
     
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/24/20171224/">20171224</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="syb3181的博客第一天"><a href="#syb3181的博客第一天" class="headerlink" title="syb3181的博客第一天"></a>syb3181的博客第一天</h1><h2 id="h1"><a href="#h1" class="headerlink" title="h1"></a>h1</h2><p>在 <em>zzh</em> 的推荐下入坑 <strong>hexo+github</strong> 当博客。</p>
-<p>第一天接触 <em>markdown</em>，不过 <em>markup</em> 语言之前也接触过，其实就是经常写 <em>LaTex</em> 啦。感觉 <em>markdown</em> 更加随意一些，写起来更偏向纯文本，也没有那么多公式，毕竟脱离科研以后，也不会需要那么多公式了。目前选了 <em>Atom</em> 作为编辑器，目前来说是够用了。</p>
-<p>从用 <em>LaTex</em> 切换到用 <em>markdown</em> 让我想起来一年多前第一次去实习，那时候写个 <em>Java</em> 的 <em>Kafka</em> <em>consumer</em> 都很费劲，想着用 <em>C++</em>，一年过去感觉 <em>C++</em> 都快要忘记了。</p>
-<p>前些天跟 <em>zzh</em> 一起去了谷歌开发者大会，然后他回来就抽时间写了两天的见闻，然后有一些技术媒体就转载了他的博客。然后我感觉我就是去玩了一趟，于是见贤思齐决定也要开个博客。</p>
-<h2 id="h2"><a href="#h2" class="headerlink" title="h2"></a>h2</h2><p>感觉作为一个程序员还是要有一个自己的项目。然后就是要深入了解一些东西，而不是简单会用。</p>
-<h2 id="h3"><a href="#h3" class="headerlink" title="h3"></a>h3</h2><p>可能的tag：</p>
-<ul>
-<li>java</li>
-<li>linux</li>
-<li>k8s</li>
-<li>git</li>
-<li>kafka</li>
-<li>spark</li>
-<li>Hbase</li>
-<li>Guice</li>
-<li>maven</li>
-</ul>
-<h2 id="h4"><a href="#h4" class="headerlink" title="h4"></a>h4</h2><p>最近想补补计算机基础知识，看看 <strong>深入理解计算机系统</strong>。</p>
-<p>然后看看 <strong>Guice</strong> 的源代码。</p>
-<h2 id="h5"><a href="#h5" class="headerlink" title="h5"></a>h5</h2><p>贴一个 <em>markdown</em> <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" target="_blank" rel="noopener"> cheatsheet</a></p>
-<h2 id="h6"><a href="#h6" class="headerlink" title="h6"></a>h6</h2><p>贴个图片吧<br><img src="/2017/12/24/20171224/wawang.jpg" title="King Varian Wrynn"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2017/12/24/20171224/" data-id="cjtch8yyp0000tegoyeamxmpe" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Siguiente &raquo;</a>
+  </nav>
 
 </section>
         
@@ -617,16 +621,16 @@ MathJax.Hub.Config({
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
+    <h3 class="widget-title">Nube de Tags</h3>
     <div class="widget tagcloud">
-      <a href="/tags/algorithm/" style="font-size: 10px;">algorithm</a> <a href="/tags/heartstone/" style="font-size: 10px;">heartstone</a> <a href="/tags/leetcode/" style="font-size: 10px;">leetcode</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/ml/" style="font-size: 10px;">ml</a> <a href="/tags/ss/" style="font-size: 10px;">ss</a>
+      <a href="/tags/algorithm/" style="font-size: 20px;">algorithm</a> <a href="/tags/heartstone/" style="font-size: 10px;">heartstone</a> <a href="/tags/leetcode/" style="font-size: 10px;">leetcode</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/ml/" style="font-size: 10px;">ml</a> <a href="/tags/ss/" style="font-size: 10px;">ss</a>
     </div>
   </div>
 
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
+    <h3 class="widget-title">Archivos</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li></ul>
     </div>
@@ -636,9 +640,13 @@ MathJax.Hub.Config({
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">Posts recientes</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/03/18/20190318/">20190318</a>
+          </li>
         
           <li>
             <a href="/2019/03/17/20190317/">20190317</a>
@@ -656,10 +664,6 @@ MathJax.Hub.Config({
             <a href="/2019/02/16/20190216/">20190216</a>
           </li>
         
-          <li>
-            <a href="/2018/10/13/20181013/">20181013</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -673,7 +677,7 @@ MathJax.Hub.Config({
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2019 syb3181<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Construido por <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
