@@ -48,9 +48,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Buscar"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://syb3181.github.io"></form>
@@ -60,6 +60,59 @@
 </header>
       <div class="outer">
         <section id="main">
+  
+    <article id="post-20190320" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/03/20/20190320/" class="article-date">
+  <time datetime="2019-03-20T03:05:16.000Z" itemprop="datePublished">2019-03-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/20/20190320/">20190320</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近喜欢在开始工作前做一题，一般我会偷偷做，cwy看到必须会喷我浪费时间哈哈。</p>
+<p>题目<br><a href="https://leetcode.com/problems/shuffle-an-array" target="_blank" rel="noopener">Shuffle an Array</a></p>
+<p>答案：<br><a href="https://www.rosettacode.org/wiki/Knuth_shuffle" target="_blank" rel="noopener">Knuth_shuffle</a></p>
+<p>想起一个经典的问题，等概率取样。当时我第一次面试百度实习的时候，问了这个问题。<br>后来老李送了我一本算法珠玑，里面有类似的问题。<br>然后第二次去面试百度实习又问了同样的问题，那我只能完美解答了。</p>
+<p>问题是这样的，顺序来无限个包(package stream)，要求等概率保留其中K个。</p>
+<p>方法：<br>第N个包来的时候，若包的数量不足K个的，保留来的包。否则，以K/N的概率，用第N个包等概率替换已有的包。<br>具体的方法就是生成一个[1, N]的随机数I，如果I &lt;= K, 那么就用第N个包替换第I个包。</p>
+<p>证明：<br>用 pI 表示第 I 个包。<br>用 P(I|N) 表示 pN 到达时，pI 被取样的概率。<br>用数学归纳法证明当来了M个包时，每个包被选中的概率是K/M</p>
+<ol>
+<li><p>当 M=K 时，算法保证每个包都被选中，P(I|K) = 1 (1&lt;= I &lt;= M), 满足条件。</p>
+</li>
+<li><p>设当 M=N-1 时，P(I|N-1) = K/(N-1)，那么M=N时，<br>根据算法，P(N|N) = K / N。<br>对于第 I(0 &lt; I &lt; N)个包，<br>令G(I)表示 I 在 pN 到来时，pI不被替换的概率<br>P(I|N) = P(I|N-1) <em> G(I)<br>G(I) = G(I|pN未选中) + G(I|pN选中)<br>第 N - 1 个包来的时候被保留的概率P(I|N-1) = K/(N-1)<br>第 N 个包没有选中(概率是(N-K)/N)，那么第I个包继续保留：<br>G(I|pN未选中) = (N-K)/N<br>第 N 个包选中了(概率是K/N)，有 (K-1)/K 的概率不会换到：<br>G(I|pN选中) = K/N </em> (K-1)/K<br>因此，<br>G(I) = K/(N-1) <em> ((N-K)/N + K/N </em> (K-1)/K) = K/N</p>
+</li>
+</ol>
+<p>由1.,2.可知结论。</p>
+<p><a href="https://www.rosettacode.org/wiki/Knuth_shuffle" target="_blank" rel="noopener">Knuth_shuffle</a>算法的证明和随机取样问题的证明是类似的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://syb3181.github.io/2019/03/20/20190320/" data-id="cjtgmkytu000jbngn3f07dmcs" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-20190318" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -105,7 +158,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2019/03/18/20190318/" data-id="cjtej8yjk000bbwgnbq642kwo" class="article-share-link">Compartir</a>
+      <a data-url="https://syb3181.github.io/2019/03/18/20190318/" data-id="cjtgmkytx000mbngntkqijuc8" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
@@ -153,7 +206,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2019/03/17/20190317/" data-id="cjtej8yjl000cbwgnb8ioo2d6" class="article-share-link">Compartir</a>
+      <a data-url="https://syb3181.github.io/2019/03/17/20190317/" data-id="cjtgmkytw000kbngnasx3saep" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/">leetcode</a></li></ul>
@@ -203,7 +256,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2019/03/11/20190311/" data-id="cjtej8yjf0008bwgn1yyn96j8" class="article-share-link">Compartir</a>
+      <a data-url="https://syb3181.github.io/2019/03/11/20190311/" data-id="cjtgmkytf000cbngni022x8v0" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
@@ -251,7 +304,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2019/03/08/20190308/" data-id="cjtej8yjm000fbwgnkudtar4x" class="article-share-link">Compartir</a>
+      <a data-url="https://syb3181.github.io/2019/03/08/20190308/" data-id="cjtgmkytc0009bngn2jliob7i" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
@@ -307,7 +360,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2019/02/16/20190216/" data-id="cjtej8yjh000abwgnog29a4x4" class="article-share-link">Compartir</a>
+      <a data-url="https://syb3181.github.io/2019/02/16/20190216/" data-id="cjtgmkyte000abngnnxum5a8o" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ss/">ss</a></li></ul>
@@ -369,7 +422,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2018/10/13/20181013/" data-id="cjtej8yja0004bwgnaikca998" class="article-share-link">Compartir</a>
+      <a data-url="https://syb3181.github.io/2018/10/13/20181013/" data-id="cjtgmkytb0006bngngfq7fwdo" class="article-share-link">Teilen</a>
       
       
     </footer>
@@ -415,7 +468,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2018/08/22/20180822/" data-id="cjtej8yjc0005bwgn7skswcjj" class="article-share-link">Compartir</a>
+      <a data-url="https://syb3181.github.io/2018/08/22/20180822/" data-id="cjtgmkyt90005bngnnc0tzfev" class="article-share-link">Teilen</a>
       
       
     </footer>
@@ -481,7 +534,7 @@ MathJax.Hub.Config({
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2018/02/23/20180223/" data-id="cjtej8yje0006bwgnwqtxfods" class="article-share-link">Compartir</a>
+      <a data-url="https://syb3181.github.io/2018/02/23/20180223/" data-id="cjtgmkyt40004bngn2wlo55dt" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ml/">ml</a></li></ul>
@@ -532,62 +585,9 @@ MathJax.Hub.Config({
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2018/02/07/20180207/" data-id="cjtej8yj60002bwgnze5m5mi1" class="article-share-link">Compartir</a>
+      <a data-url="https://syb3181.github.io/2018/02/07/20180207/" data-id="cjtgmkysy0002bngnw5apym9x" class="article-share-link">Teilen</a>
       
       
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-20180103" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/01/03/20180103/" class="article-date">
-  <time datetime="2018-01-03T15:39:51.000Z" itemprop="datePublished">2018-01-03</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/03/20180103/">20180103</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>还没写一篇技术博客，就要在新年水上一帖。权当复习一下 <em>Hexo</em> 怎么用了哈哈。今天的讨论主题是</p>
-<h1 id="防战-Control-Warrior"><a href="#防战-Control-Warrior" class="headerlink" title="防战 (Control Warrior)"></a><strong>防战</strong> <strong>(Control Warrior)</strong></h1><h2 id="狗头人版本的防战"><a href="#狗头人版本的防战" class="headerlink" title="狗头人版本的防战"></a>狗头人版本的防战</h2><p>说到防战，可以说是我最爱玩的卡组了。我也可以算是一个信仰防战玩家了。天梯防战胜场2000+。废话不多说先上卡组</p>
-<img src="/2018/01/03/20180103/deck.jpeg" title="Control Warrior Deck">
-<p>这套狗头人版本的防战来自顶级防战玩家Fibonacci，天梯防战胜场 <em>2w+</em>。<br>曾经在防战非常不景气的时候构筑了死亡之翼防战，并且在三个赛季月末结算第一<a href="http://www.hearthstonetopdecks.com/decks/fibonaccis-season-22-control-warrior/" target="_blank" rel="noopener">Deathwing Control Warrior</a>。</p>
-<h2 id="对阵术士"><a href="#对阵术士" class="headerlink" title="对阵术士"></a>对阵术士</h2><img src="/2018/01/03/20180103/vs_warlock.jpeg" title="vs_warlock">
-<p>第一局对阵术士，小优对局，乱斗留给dk一波。利用亡者之牌厚度碾压。第一把快结束的时候黄金卡背学妹前来观战，本来准备退了，又玩了一把。</p>
-<h2 id="对阵骑士"><a href="#对阵骑士" class="headerlink" title="对阵骑士"></a>对阵骑士</h2><img src="/2018/01/03/20180103/vs_knight.jpeg" title="vs_knight">
-<p>大优对局，4个1伤 <em>AOE</em>，乱斗，暴龙之王，dk，随便清骑士的场面。</p>
-<p>胜负手在二费。对面场上一个有圣盾的银色保卫者，一个池塘猎人。我手上有硬币血刃剃刀，猛击。</p>
-<img src="/2018/01/03/20180103/zybhz.png" title="width=100 height=200 0">
-<img src="/2018/01/03/20180103/stlr.png" title="width=100 height=200 1">
-<img src="/2018/01/03/20180103/mj.png" title="width=100 height=200 2">
-<img src="/2018/01/03/20180103/xrtd.png" title="width=100 height=200 3">
-<p>这里必须选择猛击银色保卫者，因为只有这样才能在3费提起血刃剃刀，解掉鱼人领军防止降低伤害。<br><img src="/2018/01/03/20180103/yrlj.png" title="width=100 height=200 4"></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>首先是好爽，然后就是不管干什么事情，玩游戏也好，工作也罢，至少要有个目标。用自己的时间去换一些东西，而不是浪费时间。可以排的更好一些，比如并排排列图片，也可以写的更详细一些，不过明天还要上班，改天再研究了。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2018/01/03/20180103/" data-id="cjtej8yj50001bwgnwwq69jks" class="article-share-link">Compartir</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/heartstone/">heartstone</a></li></ul>
-
     </footer>
   </div>
   
@@ -599,7 +599,7 @@ MathJax.Hub.Config({
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Siguiente &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">weiter &raquo;</a>
   </nav>
 
 </section>
@@ -621,7 +621,7 @@ MathJax.Hub.Config({
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Nube de Tags</h3>
+    <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
       <a href="/tags/algorithm/" style="font-size: 20px;">algorithm</a> <a href="/tags/heartstone/" style="font-size: 10px;">heartstone</a> <a href="/tags/leetcode/" style="font-size: 10px;">leetcode</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/ml/" style="font-size: 10px;">ml</a> <a href="/tags/ss/" style="font-size: 10px;">ss</a>
     </div>
@@ -630,7 +630,7 @@ MathJax.Hub.Config({
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archivos</h3>
+    <h3 class="widget-title">Archiv</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li></ul>
     </div>
@@ -640,9 +640,13 @@ MathJax.Hub.Config({
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Posts recientes</h3>
+    <h3 class="widget-title">letzter Beitrag</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/03/20/20190320/">20190320</a>
+          </li>
         
           <li>
             <a href="/2019/03/18/20190318/">20190318</a>
@@ -660,10 +664,6 @@ MathJax.Hub.Config({
             <a href="/2019/03/08/20190308/">20190308</a>
           </li>
         
-          <li>
-            <a href="/2019/02/16/20190216/">20190216</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -677,7 +677,7 @@ MathJax.Hub.Config({
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2019 syb3181<br>
-      Construido por <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
