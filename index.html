@@ -61,6 +61,59 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-20190503" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/05/03/20190503/" class="article-date">
+  <time datetime="2019-05-03T06:19:53.000Z" itemprop="datePublished">2019-05-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/03/20190503/">20190503</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>随便记录一点吧在做某银行法律文书信息抽取项目的事情。</p>
+<h2 id="1-环境"><a href="#1-环境" class="headerlink" title="1. 环境"></a>1. 环境</h2><h3 id="1-保密"><a href="#1-保密" class="headerlink" title="1. 保密"></a>1. 保密</h3><p>银行是真的保密。由于保密的需要，所有的内容都是只进不出。<br>比如标注数据，我们项目用的标注数据一共就五百篇左右的法律文书。<br>这些法律文书都可以从判决文书网下载，即便如此，银行也不允许把数据从行内拿出来。</p>
+<h3 id="2-U盘"><a href="#2-U盘" class="headerlink" title="2. U盘"></a>2. U盘</h3><p>所有的服务器都是处于断外网状态的，连系统的依赖都需要在服务器下载好了然后。然后通过行内提供的Windows笔记本，用U盘复制到服务器上。U盘的文件系统格式我推荐FAT32，买了个金士顿的带type-C接口的U盘，这样Linux台式机，MacOS的笔记本，Windows都能读写。唯一的问题就是镜像如果超过4G就很麻烦，这时候需要准备一个NTFS格式的U盘。</p>
+<h3 id="3-基础镜像"><a href="#3-基础镜像" class="headerlink" title="3. 基础镜像"></a>3. 基础镜像</h3><p>应用要部署到银行的机器学习平台需要用银行给的基础镜像。这个基础镜像locale设置有问题，打印中文会报错。只能从行外下载好依赖，写进Dockerfile，通过这样的方式来修复（当然不打印中文也是可以的）。</p>
+<h2 id="2-模型"><a href="#2-模型" class="headerlink" title="2. 模型"></a>2. 模型</h2><p>抽取实际上搞成了一个NER的问题。把序列标上BIO。<br>比如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">多(B-人名)田(I)从(O)方(O)向(O)盘(O)抽(O)出(O)一(O)只(O)手(O)。(O)</span><br></pre></td></tr></table></figure></p>
+<p>一开始博士小哥整了个bert + CRF，似乎有内存泄露的问题，每次都要手动杀进程。除此之外，性能还是很好的，在行外从训练集分出来的验证集上就87的f1了，行内应该更高，而且在随手抓的文书上效果也很不错，真是挺神奇的，毕竟训练的数据实在是太少了。</p>
+<p>但是合作单位那边的技术负责人不太满意，因为有4000W+文书需要处理，行内只给了一片P40，要跑40天。还不是独占的。bert用的是官方的，tensorflowhub有两种规格的，从A24到A12，然后maxlen从200到50，这样batchsize也从16变成了64，这样处理速度能达到40sent/s。算下来还要20天，加上APEC（似乎是降低精度提高速度，我让一个小哥试了，快了一点）加速。于是我们开始换模型。</p>
+<p>于是我就去试了BiLSTM，DGCNN，比BERT差了5个点，也可能是我模型写的有问题。我参照了<a href="https://github.com/cs230-stanford/cs230-code-examples/tree/master/pytorch/nlp" target="_blank" rel="noopener">cs230的一份code</a>来组织项目。pytorch用来做实验不错，可能最后上生产还是要回归keras和tf。上线似乎行内的标准是要用tensorflow serving。</p>
+<p>最后4600W文书算一下全部跑完要10多天。DGCNN还需要测一测，比BiLSTM又降了一到两个点。由于数据本身就很少，用来作为dev_set的数据就更少了，对测试准确性很有问题，比如有的字段dev_set一共才20个测试数据，一个数据5%，这误差谁顶得住啊。DGCNN理论上还能再快一些，BiLSTM不能并行搞，CNN可以，我感觉这个NER的问题局部特征就够了，理论上CNN可以和BiLSTM差不多。这样可以优化到7天左右。肯定还有优化的余地，不过我是有些累了，为啥不多搞一张卡？</p>
+<h2 id="3-踩坑"><a href="#3-踩坑" class="headerlink" title="3. 踩坑"></a>3. 踩坑</h2><h3 id="1-工程"><a href="#1-工程" class="headerlink" title="1. 工程"></a>1. 工程</h3><p>第一次踩坑是去行内使用gpu镜像的时候。<br>行内给我提供了一个没有GPU的服务器，我第一次去部署的是同事写的模型，为了在只有CPU的机器上测试，除了和tensorflow-gpu，我还在镜像中同时安装了tensorflow。</p>
+<p>后来由于行内的容器应用部署平台不是特别好操作（那边的业务老师都配置的不熟练，如果一定要配置我觉得我应该能指导她配置好），就先提供了一台有GPU的服务器。然后在镜像跑起来以后，用tf的api看不到GPU。先用<a href="https://arnon.dk/check-cuda-installed/" target="_blank" rel="noopener">命令</a>nvidia-smi和nvcc看一下，驱动和CUDA有没有问题，然后一开始的机器容器里面nvidia-smi没有输出的，后来换了台机器就有输出了，依然看不到GPU，确认基础镜像没有问题，把tensorflow删掉就看到了GPU。咨询了小磊，还有jesse，他们给了我不少指导。是不是需要mount device，我还得自己也搞一遍才能确认，实际看起来似乎是不用的。</p>
+<h3 id="2-notebook"><a href="#2-notebook" class="headerlink" title="2. notebook"></a>2. notebook</h3><p>在搞模型前我先用notebook做一下POC。然后NOTEBOOK有个小坑，我把optimizer和model放在了不同的codeblock里面，然后我每次改模型都只重新eval了model所在的codeblock，结果怎么训练都训练不动。其实是应该把optimizer也重新eval一下，这样backward的时候才能改变新模型的参数。</p>
+<h3 id="3-pytorch"><a href="#3-pytorch" class="headerlink" title="3. pytorch"></a>3. pytorch</h3><p>有个小坑也踩了，就是我把几个cnn_layer放在了一个list里面，然后作为成员变量。这样是不对的，可以打印所有的参数，发现其中并没有这些layer，后来就发现了这个问题。</p>
+<h3 id="4-torchtext"><a href="#4-torchtext" class="headerlink" title="4. torchtext"></a>4. torchtext</h3><p>torchtext提供了非常方便的API，自动pad，自动管理vocabulary，切分train_set和dev_set。<br>注意切分的时候，是随机切分的，所以如果restore from checkpoint以后接着训练，如果随机状态不确定，就会导致dev_set的数据不断流入train_set。这个问题其实很好发现，因为多次如此操作以后，正确率会接近100。想想这也可以变相用来测试模型是否有足够的表达能力。</p>
+<p>还有就是模型有问题的时候可以输出错误的例子，从中找寻bug所在。后来一个bug是因为torchtext的buildvocab方法用的不对，点进去看了源代码，然后从一个tokenlist去生成vocab。</p>
+<p>我BiLSTM和DGCNN一开始没有用pretrain的embedding，结果在新的数据上，表现很差。所以后来用了一份embedding，在随手抓的数据上也好了不少，但是比起bert还是有肉眼可见的差距。</p>
+<p>先记这么多吧，也是新司机上路，还是有很多东西要学要整，慢慢记。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://syb3181.github.io/2019/05/03/20190503/" data-id="cjv96odzj000mjpqiksn7agzv" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-20190326" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/03/26/20190326/" class="article-date">
@@ -95,7 +148,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2019/03/26/20190326/" data-id="cjtqv0dgn000hyzqis85hxg9h" class="article-share-link">Share</a>
+      <a data-url="https://syb3181.github.io/2019/03/26/20190326/" data-id="cjv96odzg000fjpqibf09bqtz" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm-topcoder/">algorithm, topcoder</a></li></ul>
@@ -137,7 +190,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2019/03/22/20190322/" data-id="cjtqv0dgl000eyzqiiqr0d8q3" class="article-share-link">Share</a>
+      <a data-url="https://syb3181.github.io/2019/03/22/20190322/" data-id="cjv96odzi000jjpqipg0cvo0n" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
@@ -190,7 +243,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2019/03/20/20190320/" data-id="cjtqv0dgo000jyzqioh6qx1g0" class="article-share-link">Share</a>
+      <a data-url="https://syb3181.github.io/2019/03/20/20190320/" data-id="cjv96odzh000hjpqilro4brew" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
@@ -246,7 +299,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2019/03/18/20190318/" data-id="cjtqv0dgp000lyzqi4nkwph07" class="article-share-link">Share</a>
+      <a data-url="https://syb3181.github.io/2019/03/18/20190318/" data-id="cjv96odzk000ojpqilvu7fd7p" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
@@ -294,7 +347,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2019/03/17/20190317/" data-id="cjtqv0dgj000byzqidbprno3y" class="article-share-link">Share</a>
+      <a data-url="https://syb3181.github.io/2019/03/17/20190317/" data-id="cjv96odze000bjpqig2w128ap" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/">leetcode</a></li></ul>
@@ -344,7 +397,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2019/03/11/20190311/" data-id="cjtqv0dgi000ayzqii9ixlkxa" class="article-share-link">Share</a>
+      <a data-url="https://syb3181.github.io/2019/03/11/20190311/" data-id="cjv96odz90007jpqiun96vagz" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
@@ -392,7 +445,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2019/03/08/20190308/" data-id="cjtqv0dgm000fyzqigdxbffju" class="article-share-link">Share</a>
+      <a data-url="https://syb3181.github.io/2019/03/08/20190308/" data-id="cjv96odzb000ajpqigzf9nziv" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
@@ -448,7 +501,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2019/02/16/20190216/" data-id="cjtqv0dgg0009yzqim2io9qb1" class="article-share-link">Share</a>
+      <a data-url="https://syb3181.github.io/2019/02/16/20190216/" data-id="cjv96odzf000djpqivw5x031r" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ss/">ss</a></li></ul>
@@ -510,53 +563,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2018/10/13/20181013/" data-id="cjtqv0dge0006yzqigcj1ozhh" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-20180822" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/22/20180822/" class="article-date">
-  <time datetime="2018-08-22T07:36:14.000Z" itemprop="datePublished">2018-08-22</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/22/20180822/">20180822</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>小小记录一下，毕业以后被拉去创业了。现在就三个人，原来很多不用自己干的事情也是逃不掉了。</p>
-<p>比如搭gitlab，原来的公司是有专门的人负责的，有k8s集群，有专门的命名空间，然后有ldap登录，<br>还有一哥搞的定时备份软件备份数据。现在我搞了个简单版的。这一套也适用于人力有限的创业公司。</p>
-<p>首先要有unix环境和docker，把镜像准备好。</p>
-<p>我们需要把gitlab中的一些文件夹mount到宿主机上，主要是gitlab的数据和配置，<br>创建好启动命令中的目录以后，用启动命令先把容器跑起来，</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">docker run --detach \</span><br><span class="line">        --hostname gitlab.example.com \</span><br><span class="line">        --publish 20443:443 --publish 30088:30088 --publish 20022:20022 \</span><br><span class="line">        --name gitlab \</span><br><span class="line">        --restart always \</span><br><span class="line">        --volume /home/shengyibin/gitlab/config:/etc/gitlab \</span><br><span class="line">        --volume /home/shengyibin/gitlab/logs:/var/log/gitlab \</span><br><span class="line">        --volume /home/shengyibin/gitlab/data:/var/opt/gitlab \</span><br><span class="line">        gitlab/gitlab-ce:latest</span><br></pre></td></tr></table></figure>
-<p>这样配置文件就生成在了指定的目录里面了，<br>其中 <strong>gitlab.rb</strong> 需要添加一下端口还有地址的配置，主要是服务的访问端口，最好不要占用80端口，<br>放在一个外面能访问的端口上，还有就是ssh的端口</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">external_url &apos;http://your.external.ip.available:30088&apos;</span><br><span class="line">gitlab_rails[&apos;gitlab_shell_ssh_port&apos;] = 20022</span><br></pre></td></tr></table></figure>
-<p>这样恢复的时候理论上只要对着原来保存数据的目录用上面的命令就行了。</p>
-<p>事实上也是这样，除了会报错，搜了一下绕过去的办法(<a href="https://gitlab.com/gitlab-org/omnibus-gitlab/issues/1601" target="_blank" rel="noopener">https://gitlab.com/gitlab-org/omnibus-gitlab/issues/1601</a>)<br>在gitlab的volume文件夹下执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod 2770 /data/git-data/repositories</span><br></pre></td></tr></table></figure><br>就可以顺利起来了。</p>
-<p>然后每周五摸鱼的时候花几分钟把volume文件夹备份一下，对于只有三个人的startup来说，可以说相当美滋滋了。当然这个攻略是假设读者对基本的运维操作比较熟悉的。gitlab目前的版本是GitLab 10.8.4，图方便拉个最新的呗，没准后面bug也修复了，能用万岁好吧。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://syb3181.github.io/2018/08/22/20180822/" data-id="cjtqv0dg80004yzqiyt7rfd5d" class="article-share-link">Share</a>
+      <a data-url="https://syb3181.github.io/2018/10/13/20181013/" data-id="cjv96odz70006jpqidmmzexxc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -603,7 +610,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li></ul>
     </div>
   </div>
 
@@ -614,6 +621,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/05/03/20190503/">20190503</a>
+          </li>
         
           <li>
             <a href="/2019/03/26/20190326/">20190326</a>
@@ -629,10 +640,6 @@
         
           <li>
             <a href="/2019/03/18/20190318/">20190318</a>
-          </li>
-        
-          <li>
-            <a href="/2019/03/17/20190317/">20190317</a>
           </li>
         
       </ul>
